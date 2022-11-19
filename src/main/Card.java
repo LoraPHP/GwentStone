@@ -115,7 +115,7 @@ abstract class Minion extends Card{
         this.tank = tank;
     }
 
-    public boolean isHasAttacked() {
+    public boolean hasAttacked() {
         return hasAttacked;
     }
 
@@ -176,30 +176,48 @@ abstract class Environment extends Card{
     public Environment(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
     }
+    public abstract void effect(ArrayList<ArrayList<Card>> board, int affectedRow);
 }
 
 class Firestorm extends Environment {
     public Firestorm(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
     }
-    public void effect() {
-
+    @Override
+    public void effect(ArrayList<ArrayList<Card>> board, int affectedRow) {
+        ArrayList<Card> cardRow = board.get(affectedRow);
+        for (Card card : cardRow)
+            ((Minion)card).setHealth(((Minion)card).getHealth() - 1);
+        cardRow.removeIf((Card card) -> ((Minion)card).getHealth() == 0);
     }
 }
 class Winterfell extends Environment {
     public Winterfell(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
     }
-    public void effect() {
-
+    @Override
+    public void effect(ArrayList<ArrayList<Card>> board, int affectedRow) {
+        ArrayList<Card> cardRow = board.get(affectedRow);
+        for (Card card : cardRow)
+            ((Minion)card).setFrozen(true);
     }
 }
 class HeartHound extends Environment {
     public HeartHound(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
     }
-    public void effect() {
-
+    @Override
+    public void effect(ArrayList<ArrayList<Card>> board, int affectedRow) {
+        ArrayList<Card> cardRow = board.get(affectedRow);
+        int maxHealth = 0;
+        Card stolen = cardRow.get(0);
+        for (Card card : cardRow)
+            if (((Minion)card).getHealth() > maxHealth) {
+                maxHealth = ((Minion) card).getHealth();
+                stolen = card;
+            }
+        board.get(board.size() - affectedRow - 1).add(stolen);
+        cardRow.remove(stolen);
     }
 }
 

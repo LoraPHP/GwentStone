@@ -89,7 +89,6 @@ public class Deck {
                             inputCard.getAttackDamage(), inputCard.getHealth()));
                     break;
             }
-            System.out.println( seed + "That's it");
         }
         Collections.shuffle(cards, new Random(seed));
     }

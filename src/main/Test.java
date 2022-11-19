@@ -28,14 +28,15 @@ public final class Test {
         if (inputDir != null) {
             Arrays.sort(inputDir);
 
-            Scanner scanner = new Scanner(System.in);
-            String fileName = scanner.next();
-            for (File file : inputDir) {
-                if (file.getName().equalsIgnoreCase(fileName)) {
-                    Main.action(file.getName(), CheckerConstants.OUT_FILE);
-                    break;
-                }
-            }
+            Main.action("test04_use_environment_card.json", CheckerConstants.OUT_FILE);
+//            Scanner scanner = new Scanner(System.in);
+//            String fileName = scanner.next();
+//            for (File file : inputDir) {
+//                if (file.getName().equalsIgnoreCase(fileName)) {
+//                    Main.action(file.getName(), CheckerConstants.OUT_FILE);
+//                    break;
+//                }
+//            }
         }
     }
 }
