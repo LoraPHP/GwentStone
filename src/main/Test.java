@@ -28,15 +28,14 @@ public final class Test {
         if (inputDir != null) {
             Arrays.sort(inputDir);
 
-            Main.action("test12_use_hero_ability_1.json", CheckerConstants.OUT_FILE);
-//            Scanner scanner = new Scanner(System.in);
-//            String fileName = scanner.next();
-//            for (File file : inputDir) {
-//                if (file.getName().equalsIgnoreCase(fileName)) {
-//                    Main.action(file.getName(), CheckerConstants.OUT_FILE);
-//                    break;
-//                }
-//            }
+            Scanner scanner = new Scanner(System.in);
+            String fileName = scanner.next();
+            for (File file : inputDir) {
+                if (file.getName().equalsIgnoreCase(fileName)) {
+                    Main.action(file.getName(), CheckerConstants.OUT_FILE);
+                    break;
+                }
+            }
         }
     }
 }

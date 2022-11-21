@@ -18,15 +18,15 @@ public class Deck {
         return cards;
     }
 
-    public void setNrCardsInDeck(int nrCardsInDeck) {
+    public void setNrCardsInDeck(final int nrCardsInDeck) {
         this.nrCardsInDeck = nrCardsInDeck;
     }
 
-    public void setCards(ArrayList<Card> cards) {
+    public void setCards(final ArrayList<Card> cards) {
         this.cards = cards;
     }
 
-    void setupDeck(ArrayList<CardInput> inputDeck, int seed, int nrCardsInDeck) {
+    void setupDeck(final ArrayList<CardInput> inputDeck, final int seed, final int nrCardsInDeck) {
         for (int i = 0; i < nrCardsInDeck; i++) {
             this.setNrCardsInDeck(nrCardsInDeck);
             CardInput inputCard = inputDeck.get(i);
@@ -47,25 +47,25 @@ public class Deck {
                     cards.add(new StandardMinion(inputCard.getMana(),
                             inputCard.getDescription(), inputCard.getColors(), inputCard.getName(),
                             inputCard.getAttackDamage(), inputCard.getHealth()));
-                    ((Minion)cards.get(cards.size() - 1)).setTank(false);
+                    ((Minion) cards.get(cards.size() - 1)).setTank(false);
                     break;
                 case "Berserker":
                     cards.add(new StandardMinion(inputCard.getMana(),
                             inputCard.getDescription(), inputCard.getColors(), inputCard.getName(),
                             inputCard.getAttackDamage(), inputCard.getHealth()));
-                    ((Minion)cards.get(cards.size() - 1)).setTank(false);
+                    ((Minion) cards.get(cards.size() - 1)).setTank(false);
                     break;
                 case "Goliath":
                     cards.add(new StandardMinion(inputCard.getMana(),
                             inputCard.getDescription(), inputCard.getColors(), inputCard.getName(),
                             inputCard.getAttackDamage(), inputCard.getHealth()));
-                    ((Minion)cards.get(cards.size() - 1)).setTank(true);
+                    ((Minion) cards.get(cards.size() - 1)).setTank(true);
                     break;
                 case "Warden":
                     cards.add(new StandardMinion(inputCard.getMana(),
                             inputCard.getDescription(), inputCard.getColors(), inputCard.getName(),
                             inputCard.getAttackDamage(), inputCard.getHealth()));
-                    ((Minion)cards.get(cards.size() - 1)).setTank(true);
+                    ((Minion) cards.get(cards.size() - 1)).setTank(true);
                     break;
                 case "The Ripper":
                     cards.add(new TheRipper(inputCard.getMana(),

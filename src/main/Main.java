@@ -72,13 +72,10 @@ public final class Main {
         ArrayNode output = objectMapper.createArrayNode();
 
         //TODO add here the entry point to your implementation
-        GameInfo gameInfo = new GameInfo();
-        gameInfo.setupGame(inputData);
-        GamePlay gamePlay = new GamePlay();
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
 
-        ArrayNode obj = gamePlay.executeActions(inputData.getGames().get(0).getActions(), gameInfo);
-        objectWriter.writeValue(new File(filePath2), obj);
+        Solver s = new Solver();
+        objectWriter.writeValue(new File(filePath2), s.solve(inputData));
     }
 }

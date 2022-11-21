@@ -10,14 +10,14 @@ public class GameInfo {
     private int turn;
     private Hero playerOneHero, playerTwoHero;
     private Deck playerOneDeck, playerTwoDeck;
-    private int playerOneTotalMana = 1, PlayerTwoTotalMana = 1;
+    private int playerOneTotalMana = 1, playerTwoTotalMana = 1;
     private int startPlayer;
 
     private int round = 1;
 
     private ArrayList<ArrayList<Card>> board;
 
-    public ArrayList<Card> playerOneHand, playerTwoHand;
+    private ArrayList<Card> playerOneHand, playerTwoHand;
 
     public int getGameNumber() {
         return gameNumber;
@@ -55,62 +55,62 @@ public class GameInfo {
         return playerTwoHand;
     }
 
-    public void setGameNumber(int gameNumber) {
+    public void setGameNumber(final int gameNumber) {
         this.gameNumber = gameNumber;
     }
 
-    public void setTurn(int turn) {
+    public void setTurn(final int turn) {
         this.turn = turn;
     }
 
-    public void setPlayerOneHero(Hero playerOneHero) {
+    public void setPlayerOneHero(final Hero playerOneHero) {
         this.playerOneHero = playerOneHero;
     }
 
-    public void setPlayerTwoHero(Hero playerTwoHero) {
+    public void setPlayerTwoHero(final Hero playerTwoHero) {
         this.playerTwoHero = playerTwoHero;
     }
 
-    public void setPlayerOneDeck(Deck playerOneDeck) {
+    public void setPlayerOneDeck(final Deck playerOneDeck) {
         this.playerOneDeck = playerOneDeck;
     }
 
-    public void setPlayerTwoDeck(Deck playerTwoDeck) {
+    public void setPlayerTwoDeck(final Deck playerTwoDeck) {
         this.playerTwoDeck = playerTwoDeck;
     }
 
-    public void setBoard(ArrayList<ArrayList<Card>> board) {
+    public void setBoard(final ArrayList<ArrayList<Card>> board) {
         this.board = board;
     }
 
-    public void setPlayerOneHand(ArrayList<Card> playerOneHand) {
+    public void setPlayerOneHand(final ArrayList<Card> playerOneHand) {
         this.playerOneHand = playerOneHand;
     }
 
-    public void setPlayerTwoHand(ArrayList<Card> playerTwoHand) {
+    public void setPlayerTwoHand(final ArrayList<Card> playerTwoHand) {
         this.playerTwoHand = playerTwoHand;
     }
     public int getPlayerOneTotalMana() {
         return playerOneTotalMana;
     }
 
-    public void setPlayerOneTotalMana(int playerOneTotalMana) {
+    public void setPlayerOneTotalMana(final int playerOneTotalMana) {
         this.playerOneTotalMana = playerOneTotalMana;
     }
 
     public int getPlayerTwoTotalMana() {
-        return PlayerTwoTotalMana;
+        return playerTwoTotalMana;
     }
 
-    public void setPlayerTwoTotalMana(int playerTwoTotalMana) {
-        PlayerTwoTotalMana = playerTwoTotalMana;
+    public void setPlayerTwoTotalMana(final int playerTwoTotalMana) {
+        this.playerTwoTotalMana = playerTwoTotalMana;
     }
 
     public int getRound() {
         return round;
     }
 
-    public void setRound(int round) {
+    public void setRound(final int round) {
         this.round = round;
     }
 
@@ -118,11 +118,12 @@ public class GameInfo {
         return startPlayer;
     }
 
-    public void setStartPlayer(int startPlayer) {
+    public void setStartPlayer(final int startPlayer) {
         this.startPlayer = startPlayer;
     }
 
-    Hero setHero(int mana, String description, ArrayList<String> colors, String name) {
+    Hero setHero(final int mana, final String description, final ArrayList<String> colors,
+                 final String name) {
         Hero hero = null;
         switch (name) {
             case "Lord Royce":
@@ -141,7 +142,7 @@ public class GameInfo {
         return hero;
     }
 
-    void setupGame(Input inputData) {
+    void setupGame(final Input inputData, final int gameNumber) {
         StartGameInput startInput = inputData.getGames().get(gameNumber).getStartGame();
 
         playerOneHero = setHero(
