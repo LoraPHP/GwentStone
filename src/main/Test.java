@@ -28,7 +28,7 @@ public final class Test {
         if (inputDir != null) {
             Arrays.sort(inputDir);
 
-            Main.action("test04_use_environment_card.json", CheckerConstants.OUT_FILE);
+            Main.action("test12_use_hero_ability_1.json", CheckerConstants.OUT_FILE);
 //            Scanner scanner = new Scanner(System.in);
 //            String fileName = scanner.next();
 //            for (File file : inputDir) {

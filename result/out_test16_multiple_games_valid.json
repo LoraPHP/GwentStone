@@ -72,15 +72,17 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 5,
-    "health" : 1,
+    "health" : 2,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker"
   }
 }, {
+  "gameEnded" : "Player two killed the enemy hero."
+}, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
-  "output" : 4
+  "output" : 2
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 1,
@@ -90,14 +92,14 @@
   "output" : [ [ {
     "mana" : 2,
     "attackDamage" : 5,
-    "health" : 1,
+    "health" : 2,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker"
   } ], [ {
     "mana" : 2,
     "attackDamage" : 5,
-    "health" : 3,
+    "health" : 4,
     "description" : "Standard card: When he is near, close your eyes. They betray your mind.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj"
@@ -118,7 +120,7 @@
   }, {
     "mana" : 1,
     "attackDamage" : 6,
-    "health" : 4,
+    "health" : 3,
     "description" : "Premium card: Insanity is always an option, now it is an absolute.",
     "colors" : [ "Yellow", "Orange", "Red" ],
     "name" : "Miraj"

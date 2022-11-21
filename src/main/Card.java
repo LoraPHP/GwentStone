@@ -1,5 +1,8 @@
 package main;
 
+import fileio.ActionsInput;
+import fileio.GameInput;
+
 import java.util.ArrayList;
 
 abstract class Card {
@@ -48,34 +51,81 @@ abstract class Card {
     }
 }
 
-class Hero extends Card {
+abstract class Hero extends Card {
 
     public Hero(int mana, String description, ArrayList<String> colors, String name) {
         super(mana, description, colors, name);
     }
     private int health = 30;
-    private boolean alive = true;
-    public void ability() {
-
-    }
-
+    private boolean hasAttacked = false;
+    abstract public void ability(ArrayList<Card> row);
     public int getHealth() {
         return health;
     }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
     public void setHealth(int health) {
         this.health = health;
     }
+    public boolean isHasAttacked() {
+        return hasAttacked;
+    }
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
+    public void setHasAttacked(boolean hasAttacked) {
+        this.hasAttacked = hasAttacked;
     }
 }
+class LordRoyce extends Hero {
+    public LordRoyce(int mana, String description, ArrayList<String> colors, String name) {
+        super(mana, description, colors, name);
+    }
 
+    public void ability(ArrayList<Card> row) {
+        int max = 0;
+        Card freeze = row.get(0);
+        for (Card card : row) {
+            if (((Minion)card).getAttackDamage() > max) {
+                max = ((Minion)card).getAttackDamage();
+                freeze = card;
+            }
+        }
+        ((Minion)freeze).setFrozen(true);
+    }
+}
+class EmpressThorina extends Hero {
+    public EmpressThorina(int mana, String description, ArrayList<String> colors, String name) {
+        super(mana, description, colors, name);
+    }
+    public void ability(ArrayList<Card> row) {
+        int max = 0;
+        Card destroy = row.get(0);
+        for (Card card : row) {
+            if (((Minion)card).getHealth() > max) {
+                max = ((Minion)card).getHealth();
+                destroy = card;
+            }
+        }
+        row.remove(destroy);
+    }
+}
+class KingMudface extends Hero {
+    public KingMudface(int mana, String description, ArrayList<String> colors, String name) {
+        super(mana, description, colors, name);
+    }
+    public void ability(ArrayList<Card> row) {
+        for (Card card : row) {
+            ((Minion)card).setHealth(((Minion)card).getHealth() + 1);
+        }
+    }
+}
+class GeneralKocioraw extends Hero {
+    public GeneralKocioraw(int mana, String description, ArrayList<String> colors, String name) {
+        super(mana, description, colors, name);
+    }
+    public void ability(ArrayList<Card> row) {
+        for (Card card : row) {
+            ((Minion)card).setAttackDamage(((Minion)card).getAttackDamage() + 1);
+        }
+    }
+}
 abstract class Minion extends Card{
     private int attackDamage;
     private int health;
@@ -123,7 +173,8 @@ abstract class Minion extends Card{
         this.hasAttacked = hasAttacked;
     }
 
-    public Minion(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+    public Minion(int mana, String description, ArrayList<String> colors, String name,
+                  int attackDamage, int health) {
         super(mana, description, colors, name);
         this.attackDamage = attackDamage;
         this.health = health;
@@ -131,44 +182,76 @@ abstract class Minion extends Card{
 }
 
 class StandardMinion extends Minion{
-    public StandardMinion(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+    public StandardMinion(int mana, String description, ArrayList<String> colors, String name,
+                          int attackDamage, int health) {
         super(mana, description, colors, name, attackDamage, health);
     }
 }
-
-class TheRipper extends Minion {
-    public TheRipper(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+abstract class SpecialMinion extends Minion{
+    public SpecialMinion(int mana, String description, ArrayList<String> colors, String name,
+                         int attackDamage, int health) {
         super(mana, description, colors, name, attackDamage, health);
     }
-    public void ability() {
+    abstract void ability(GameInfo gameInfo, ActionsInput act);
+}
 
+class TheRipper extends SpecialMinion {
+    public TheRipper(int mana, String description, ArrayList<String> colors, String name,
+                     int attackDamage, int health) {
+        super(mana, description, colors, name, attackDamage, health);
+    }
+    public void ability(GameInfo gameInfo, ActionsInput act) {
+        Minion target = (Minion)gameInfo.getBoard().get(act.getCardAttacked().getX())
+                .get(act.getCardAttacked().getY());
+        if (target.getAttackDamage() > 2)
+            target.setAttackDamage(target.getAttackDamage() - 2);
+        else
+            target.setAttackDamage(0);
     }
 }
 
-class Miraj extends Minion {
-    public Miraj(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+class Miraj extends SpecialMinion {
+    public Miraj(int mana, String description, ArrayList<String> colors, String name,
+                 int attackDamage, int health) {
         super(mana, description, colors, name, attackDamage, health);
     }
-    public void ability() {
-
+    public void ability(GameInfo gameInfo, ActionsInput act) {
+        Minion target = (Minion)gameInfo.getBoard().get(act.getCardAttacked().getX())
+                .get(act.getCardAttacked().getY());
+        Minion receiver = (Minion)gameInfo.getBoard().get(act.getCardAttacker().getX())
+                .get(act.getCardAttacker().getY());
+        int newHealth = target.getHealth();
+        target.setHealth(receiver.getHealth());
+        receiver.setHealth(newHealth);
     }
 }
 
-class TheCursedOne extends Minion {
-    public TheCursedOne(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+class TheCursedOne extends SpecialMinion {
+    public TheCursedOne(int mana, String description, ArrayList<String> colors, String name,
+                        int attackDamage, int health) {
         super(mana, description, colors, name, attackDamage, health);
     }
-    public void ability() {
-
+    public void ability(GameInfo gameInfo, ActionsInput act) {
+        Minion target = (Minion)gameInfo.getBoard().get(act.getCardAttacked().getX())
+                .get(act.getCardAttacked().getY());
+        int newValue = target.getHealth();
+        target.setHealth(target.getAttackDamage());
+        target.setAttackDamage(newValue);
+        if (target.getHealth() == 0)
+            gameInfo.getBoard().get(act.getCardAttacked().getX()).remove(act.getCardAttacked()
+                    .getY());
     }
 }
 
-class Disciple extends  Minion {
-    public Disciple(int mana, String description, ArrayList<String> colors, String name, int attackDamage, int health) {
+class Disciple extends SpecialMinion {
+    public Disciple(int mana, String description, ArrayList<String> colors, String name,
+                    int attackDamage, int health) {
         super(mana, description, colors, name, attackDamage, health);
     }
-    public void ability() {
-
+    public void ability(GameInfo gameInfo, ActionsInput act) {
+        Minion target = (Minion)gameInfo.getBoard().get(act.getCardAttacked().getX()).
+                get(act.getCardAttacked().getY());
+        target.setHealth(target.getHealth() + 2);
     }
 }
 

@@ -122,14 +122,34 @@ public class GameInfo {
         this.startPlayer = startPlayer;
     }
 
+    Hero setHero(int mana, String description, ArrayList<String> colors, String name) {
+        Hero hero = null;
+        switch (name) {
+            case "Lord Royce":
+                hero = new LordRoyce(mana, description, colors, name);
+                break;
+            case "Empress Thorina":
+                hero = new EmpressThorina(mana, description, colors, name);
+                break;
+            case "King Mudface":
+                hero = new KingMudface(mana, description, colors, name);
+                break;
+            case "General Kocioraw":
+                hero = new GeneralKocioraw(mana, description, colors, name);
+                break;
+        }
+        return hero;
+    }
+
     void setupGame(Input inputData) {
         StartGameInput startInput = inputData.getGames().get(gameNumber).getStartGame();
-        playerOneHero = new Hero(
+
+        playerOneHero = setHero(
                 startInput.getPlayerOneHero().getMana(),
                 startInput.getPlayerOneHero().getDescription(),
                 startInput.getPlayerOneHero().getColors(),
                 startInput.getPlayerOneHero().getName());
-        playerTwoHero = new Hero(
+        playerTwoHero = setHero(
                 startInput.getPlayerTwoHero().getMana(),
                 startInput.getPlayerTwoHero().getDescription(),
                 startInput.getPlayerTwoHero().getColors(),
@@ -140,7 +160,8 @@ public class GameInfo {
 
         int playerOneDeckIdx = startInput.getPlayerOneDeckIdx();
         int seed = startInput.getShuffleSeed();
-        ArrayList<CardInput> playerOneDeckInput = inputData.getPlayerOneDecks().getDecks().get(playerOneDeckIdx);
+        ArrayList<CardInput> playerOneDeckInput = inputData.getPlayerOneDecks().getDecks()
+                .get(playerOneDeckIdx);
 
         playerOneDeck = new Deck();
         int nrCardsInDeck = inputData.getPlayerOneDecks().getNrCardsInDeck();
@@ -152,7 +173,8 @@ public class GameInfo {
         playerOneDeck.setNrCardsInDeck(playerOneDeck.getNrCardsInDeck() - 1);
 
         int playerTwoDeckIdx = startInput.getPlayerTwoDeckIdx();
-        ArrayList<CardInput> playerTwoDeckInput = inputData.getPlayerTwoDecks().getDecks().get(playerTwoDeckIdx);
+        ArrayList<CardInput> playerTwoDeckInput = inputData.getPlayerTwoDecks().getDecks()
+                .get(playerTwoDeckIdx);
 
         playerTwoDeck = new Deck();
         playerTwoDeck.setupDeck(playerTwoDeckInput, seed, nrCardsInDeck);
