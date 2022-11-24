@@ -19,109 +19,118 @@ public class GameInfo {
 
     private ArrayList<Card> playerOneHand, playerTwoHand;
 
-    public int getGameNumber() {
+    public final int getGameNumber() {
         return gameNumber;
     }
 
-    public int getTurn() {
+    public final int getTurn() {
         return turn;
     }
 
-    public Hero getPlayerOneHero() {
+    public final Hero getPlayerOneHero() {
         return playerOneHero;
     }
 
-    public Hero getPlayerTwoHero() {
+    public final Hero getPlayerTwoHero() {
         return playerTwoHero;
     }
 
-    public Deck getPlayerOneDeck() {
+    public final Deck getPlayerOneDeck() {
         return playerOneDeck;
     }
 
-    public Deck getPlayerTwoDeck() {
+    public final Deck getPlayerTwoDeck() {
         return playerTwoDeck;
     }
 
-    public ArrayList<ArrayList<Card>> getBoard() {
+    public final ArrayList<ArrayList<Card>> getBoard() {
         return board;
     }
 
-    public ArrayList<Card> getPlayerOneHand() {
+    public final ArrayList<Card> getPlayerOneHand() {
         return playerOneHand;
     }
 
-    public ArrayList<Card> getPlayerTwoHand() {
+    public final ArrayList<Card> getPlayerTwoHand() {
         return playerTwoHand;
     }
 
-    public void setGameNumber(final int gameNumber) {
+    public final void setGameNumber(final int gameNumber) {
         this.gameNumber = gameNumber;
     }
 
-    public void setTurn(final int turn) {
+    public final void setTurn(final int turn) {
         this.turn = turn;
     }
 
-    public void setPlayerOneHero(final Hero playerOneHero) {
+    public final void setPlayerOneHero(final Hero playerOneHero) {
         this.playerOneHero = playerOneHero;
     }
 
-    public void setPlayerTwoHero(final Hero playerTwoHero) {
+    public final void setPlayerTwoHero(final Hero playerTwoHero) {
         this.playerTwoHero = playerTwoHero;
     }
 
-    public void setPlayerOneDeck(final Deck playerOneDeck) {
+    public final void setPlayerOneDeck(final Deck playerOneDeck) {
         this.playerOneDeck = playerOneDeck;
     }
 
-    public void setPlayerTwoDeck(final Deck playerTwoDeck) {
+    public final void setPlayerTwoDeck(final Deck playerTwoDeck) {
         this.playerTwoDeck = playerTwoDeck;
     }
 
-    public void setBoard(final ArrayList<ArrayList<Card>> board) {
+    public final void setBoard(final ArrayList<ArrayList<Card>> board) {
         this.board = board;
     }
 
-    public void setPlayerOneHand(final ArrayList<Card> playerOneHand) {
+    public final void setPlayerOneHand(final ArrayList<Card> playerOneHand) {
         this.playerOneHand = playerOneHand;
     }
 
-    public void setPlayerTwoHand(final ArrayList<Card> playerTwoHand) {
+    public final void setPlayerTwoHand(final ArrayList<Card> playerTwoHand) {
         this.playerTwoHand = playerTwoHand;
     }
-    public int getPlayerOneTotalMana() {
+    public final int getPlayerOneTotalMana() {
         return playerOneTotalMana;
     }
 
-    public void setPlayerOneTotalMana(final int playerOneTotalMana) {
+    public final void setPlayerOneTotalMana(final int playerOneTotalMana) {
         this.playerOneTotalMana = playerOneTotalMana;
     }
 
-    public int getPlayerTwoTotalMana() {
+    public final int getPlayerTwoTotalMana() {
         return playerTwoTotalMana;
     }
 
-    public void setPlayerTwoTotalMana(final int playerTwoTotalMana) {
+    public final void setPlayerTwoTotalMana(final int playerTwoTotalMana) {
         this.playerTwoTotalMana = playerTwoTotalMana;
     }
 
-    public int getRound() {
+    public final int getRound() {
         return round;
     }
 
-    public void setRound(final int round) {
+    public final void setRound(final int round) {
         this.round = round;
     }
 
-    public int getStartPlayer() {
+    public final int getStartPlayer() {
         return startPlayer;
     }
 
-    public void setStartPlayer(final int startPlayer) {
+    public final void setStartPlayer(final int startPlayer) {
         this.startPlayer = startPlayer;
     }
 
+    /**
+     * This method creates a Hero with the following characteristics:
+     *
+     * @param mana the hero's ability mana cost
+     * @param description a short description of the hero
+     * @param colors the colors used in the drawing of the hero on the card
+     * @param name the hero's name
+     * @return a Hero containing all the necessary information
+     */
     Hero setHero(final int mana, final String description, final ArrayList<String> colors,
                  final String name) {
         Hero hero = null;
@@ -138,13 +147,21 @@ public class GameInfo {
             case "General Kocioraw":
                 hero = new GeneralKocioraw(mana, description, colors, name);
                 break;
+            default:
+                System.out.println("Warning: Invalid case reached.");
         }
         return hero;
     }
-
+    /**
+     * This method is responsible for the setup of the player's heroes, decks, cards in hand and
+     * the setup of the playing board.
+     *
+     * @param inputData holds all the information about the heroes and decks
+     * @param gameNumber indicates the number of the current game
+     */
     void setupGame(final Input inputData, final int gameNumber) {
         StartGameInput startInput = inputData.getGames().get(gameNumber).getStartGame();
-
+        // set up the player's heroes
         playerOneHero = setHero(
                 startInput.getPlayerOneHero().getMana(),
                 startInput.getPlayerOneHero().getDescription(),
@@ -155,7 +172,7 @@ public class GameInfo {
                 startInput.getPlayerTwoHero().getDescription(),
                 startInput.getPlayerTwoHero().getColors(),
                 startInput.getPlayerTwoHero().getName());
-
+        // sets the starting player
         setTurn(inputData.getGames().get(gameNumber).getStartGame().getStartingPlayer());
         setStartPlayer(getTurn());
 
@@ -164,6 +181,7 @@ public class GameInfo {
         ArrayList<CardInput> playerOneDeckInput = inputData.getPlayerOneDecks().getDecks()
                 .get(playerOneDeckIdx);
 
+        // sets up the decks and each player draws the first card
         playerOneDeck = new Deck();
         int nrCardsInDeck = inputData.getPlayerOneDecks().getNrCardsInDeck();
         playerOneDeck.setupDeck(playerOneDeckInput, seed, nrCardsInDeck);
@@ -185,6 +203,7 @@ public class GameInfo {
         playerTwoDeck.getCards().remove(0);
         playerTwoDeck.setNrCardsInDeck(playerTwoDeck.getNrCardsInDeck() - 1);
 
+        // forms the playing field
         board = new ArrayList<ArrayList<Card>>(4);
         board.add(new ArrayList<Card>());
         board.add(new ArrayList<Card>());

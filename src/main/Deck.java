@@ -10,23 +10,29 @@ public class Deck {
     private int nrCardsInDeck;
     private ArrayList<Card> cards = new ArrayList<Card>();
 
-    public int getNrCardsInDeck() {
+    public final int getNrCardsInDeck() {
         return nrCardsInDeck;
     }
 
-    public ArrayList<Card> getCards() {
+    public final ArrayList<Card> getCards() {
         return cards;
     }
 
-    public void setNrCardsInDeck(final int nrCardsInDeck) {
+    public final void setNrCardsInDeck(final int nrCardsInDeck) {
         this.nrCardsInDeck = nrCardsInDeck;
     }
 
-    public void setCards(final ArrayList<Card> cards) {
+    public final void setCards(final ArrayList<Card> cards) {
         this.cards = cards;
     }
 
+    /**
+     * @param inputDeck the deck of cards to be setup
+     * @param seed used to shuffle the deck
+     * @param nrCardsInDeck the number of cards in the given deck
+     */
     void setupDeck(final ArrayList<CardInput> inputDeck, final int seed, final int nrCardsInDeck) {
+        // copies each card input in a new deck
         for (int i = 0; i < nrCardsInDeck; i++) {
             this.setNrCardsInDeck(nrCardsInDeck);
             CardInput inputCard = inputDeck.get(i);
@@ -88,8 +94,11 @@ public class Deck {
                             inputCard.getDescription(), inputCard.getColors(), inputCard.getName(),
                             inputCard.getAttackDamage(), inputCard.getHealth()));
                     break;
+                default:
+                    System.out.println("Warning: Invalid case reached.");
             }
         }
+        // shuffles the deck using the provided seed
         Collections.shuffle(cards, new Random(seed));
     }
 }

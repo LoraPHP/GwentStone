@@ -33,6 +33,12 @@ class Solver {
         this.playerTwoWins = playerTwoWins;
     }
 
+    /**
+     * This method manages each game played.
+     *
+     * @param inputData holds all the input information about the games
+     * @return an ArrayNode containing the output of each command given in each of the games played
+     */
     ArrayNode solve(final Input inputData) {
         ObjectMapper objectMapper = new ObjectMapper();
         ArrayNode output = objectMapper.createArrayNode();
